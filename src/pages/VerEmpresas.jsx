@@ -110,7 +110,6 @@ const handleDelete = async (id) => {
   return (
     <div className="container mx-auto mt-4">
       <h1 className="text-2xl font-bold mb-4 text-white">Lista de Empresas</h1>
-
       {/* Botón para generar PDF */}
       <button
         onClick={generatePDF}
@@ -118,14 +117,16 @@ const handleDelete = async (id) => {
       >
         Generar PDF
       </button>
-<br />
-      <button
-        onClick={signout}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-      ><Link to={`/`}>Salir</Link>
-        
-      </button>
-<br />
+      &nbsp;
+      {isAuthenticated && (
+        <button
+          onClick={signout}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
+        >
+          <Link to={`/`}>Salir</Link>
+        </button>
+      )}
+      <br />
       <table className="table-auto border-collapse border border-gray-600 w-full text-white">
         <thead>
           <tr className="bg-gray-800 text-gray-300">
@@ -133,6 +134,7 @@ const handleDelete = async (id) => {
             <th className="border border-gray-600 px-4 py-2">Nombre Empresa</th>
             <th className="border border-gray-600 px-4 py-2">Direccion</th>
             <th className="border border-gray-600 px-4 py-2">Telefono</th>
+
             <th className="border border-gray-600 px-4 py-2">Eliminar</th>
             <th className="border border-gray-600 px-4 py-2">Editar</th>
             <th className="border border-gray-600 px-4 py-2">Crear</th>
@@ -154,28 +156,58 @@ const handleDelete = async (id) => {
                 {task.telefono}
               </td>
               <td className="border border-gray-600 px-4 py-2 text-center">
-                <button
-                  onClick={() => handleDelete(task.id)}
-                   className={`bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded ${!isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''}`}
-                > 
-                  <Link to={`/empresas/${task.id}`}>Eliminar</Link>
-                </button>
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => handleDelete(task.id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                  >
+                    <Link to={`/empresas/${task.id}`}>Eliminar</Link>
+                  </button>
+                ) : (
+                  <button
+                    className="bg-gray-500 text-white font-bold py-1 px-3 rounded opacity-50 cursor-not-allowed"
+                    onClick={() =>
+                      alert("Por favor, inicia sesión para eliminar.")
+                    }
+                  >
+                    Eliminar
+                  </button>
+                )}
               </td>
+
               <td className="border border-gray-600 px-4 py-2 text-center">
-                <button  className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded ${!isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''}`}
-                ><Link to={`/empresas/${task.id}`}>Edit</Link>
+                {isAuthenticated ? (
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
+                    <Link to={`/empresas/${task.id}`}>Editar</Link>
                   </button>
+                ) : (
+                  <button
+                    className="bg-gray-500 text-white font-bold py-1 px-3 rounded opacity-50 cursor-not-allowed"
+                    onClick={() =>
+                      alert("Por favor, inicia sesión para editar.")
+                    }
+                  >
+                    Editar
+                  </button>
+                )}
               </td>
-                 <td className="border border-gray-600 px-4 py-2 text-center">
-                <button  className={`bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded ${!isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''}`}
-                ><Link to={`/empresas`}>Crear</Link>
+
+              <td className="border border-gray-600 px-4 py-2 text-center">
+                {isAuthenticated ? (
+                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                    <Link to={`/empresas`}>Crear</Link>
                   </button>
+                ) : (
+                  <button className="bg-gray-500 text-white font-bold py-1 px-3 rounded opacity-50 cursor-not-allowed">
+                    Crear
+                  </button>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-<br />
+      <br />
       <button
         onClick={sendPDF}
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-4"

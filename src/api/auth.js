@@ -77,6 +77,8 @@ export const uploadPDFRequest = (file) => {
   export const deleteTaskRequest =  (id) => axios.delete(`${API}/empresas/${id}`)
 
 
- export const createProductRequest =  (task) => axios.post(`${API}/productos`, task)
+  export const createProductRequest =  (task) => axios.post(`${API}/productos`, task)
+//export const createProductRequest = (task) => axios.post(`${API}/productos`, { empresa: { id: task.empresa } });
+
  export const verProductRequest =  () => axios.get(`${API}/productos`)
   
